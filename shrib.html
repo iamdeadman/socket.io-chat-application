@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <script type="text/javascript" src="/js/jquery-1.11.0.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form textarea {
+      	width:100%;
+      	height:500px;
+      	padding:5px;
+      }
+      form button{
+      	float:left;
+      }
+    </style>
+  </head>
+  <body>
+	
+    <form action="">
+    	<textarea name="text" id="text" rows="20">
+    	</textarea>
+        <button type="submit">Save</button>
+    </form>
+    
+    <script src="/socket.io/socket.io.js"></script>
+	<script>
+	  var socket = io();
+	  console.log(location.pathname);
+	  $('form').submit(function(){
+		socket.emit('update message', {fileName:location.pathname.slice(1),msg:$('#text').val()});
+		return false;
+	  });
+	  socket.on('update message', function(msg){
+		$('#text').val(msg);
+	  });
+	</script>
+  </body>
+</html>
